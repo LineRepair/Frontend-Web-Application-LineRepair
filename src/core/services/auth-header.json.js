@@ -1,0 +1,12 @@
+export default function autHeader() {
+    let user = JSON.parse(localStorage.getItem("user"));
+
+    if (user && user.token) {
+        console.log(`Bearer ${ user.token }`);
+        return { "Authorization": "Bearer" + user.token };
+    }
+    else {
+        console.log("Not token available");
+        return {};
+    }
+}
