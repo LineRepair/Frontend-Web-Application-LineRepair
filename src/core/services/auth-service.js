@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://web-services-whiterepair.azurewebsites.net/api/v1/users/auth/";
+const API_URL = "https://web-services-ielectric20220522173612.azurewebsites.net/api/v1/users/auth/";
 
 class AuthService {
     login(user) {

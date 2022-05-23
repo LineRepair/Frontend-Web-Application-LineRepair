@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL: 'https://web-services-whiterepair.azurewebsites.net/api/v1/',
+    baseURL: 'https://web-services-ielectric20220522173612.azurewebsites.net/api/v1/',
     headers: {
         'content-type': 'application/json',
         'Access-Control-Allow-Origin' : '*',
