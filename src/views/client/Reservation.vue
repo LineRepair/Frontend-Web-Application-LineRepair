@@ -18,6 +18,22 @@
         :items-per-page="10"
         class="elevation-1"
     >
+    <template v-slot:item.actions="{ item }">
+        <v-icon
+            small
+            class="mr-2"
+            @click="seeEditDialog(item)"
+        >
+          mdi-pencil
+        </v-icon>
+        <v-icon
+            small
+            class="mr-2"
+            @click="seeDeleteDialog(item)"
+        >
+          mdi-delete
+        </v-icon>
+      </template>
     </v-data-table>
     <!-- Table Reservations - END -->
   </div>
@@ -36,6 +52,8 @@ export default {
         {text: 'Date reserve', sortable: true, value: 'dateReserve'},
         {text: 'Date attention', sortable: true, value: 'dateAttention'},
         {text: 'Hour', sortable: true, value: 'hour'},
+        {text: 'Actions', sortable: false, value: 'actions'}
+
       ],
     }
   },
