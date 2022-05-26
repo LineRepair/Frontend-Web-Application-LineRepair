@@ -36,6 +36,101 @@
       </template>
     </v-data-table>
     <!-- Table Reservations - END -->
+     <!-- Dialog see Reservations - START-->
+     <v-dialog
+        v-model="openReservation"
+        max-width="600px"
+    >
+      <v-card>
+        <v-card-title>
+          <span class="text-h5"> Reservation </span>
+        </v-card-title>
+
+        <v-card-text>
+          <v-container>
+            <v-form ref="form" v-model="valid">
+            
+              <v-text-field
+                  v-model="editItem.dateAttention"
+                  label="dateAttention"
+                  :counter="20"
+                  required
+                  :rules="dateAttentionRules"
+                  id="dateAttentions"
+                  aria-labelledby="dateAttention"
+              ></v-text-field>
+              <v-text-field
+                  v-model="editItem.hour"
+                  label="hour"
+                  :counter="9"
+                  required
+                  :rules="hourRules"
+                  id="hourNumber"
+                  aria-labelledby="hourNumber"
+              ></v-text-field>
+            
+              
+            </v-form>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+              text
+              color="primary"
+              @click="openReservation = false"
+          >
+            Close
+          </v-btn>
+         
+          <v-btn
+          
+              text
+              color="primary"
+              :disabled="!valid"
+              @click="updateReservation(editItem.id, editItem)"
+          >
+            Update
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- Dialog see Reservation - END-->
+       <!--  Delete Dialog - START-->
+    <v-dialog
+        v-model="openDelete"
+        max-width="350px"
+    >
+        <v-card>
+          <v-container>
+            <v-card-subtitle>
+              <span>Do you want delete this item?</span>
+            </v-card-subtitle>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                  text
+                  color="primary"
+                  @click="openDelete = false"
+              >
+                Close
+              </v-btn>
+              <v-btn
+                  text
+                  color="primary"
+                  @click="deleteReservation(editItem.id)"
+              >
+                Delete
+              </v-btn>
+            </v-card-actions>
+          </v-container>
+        </v-card>
+    </v-dialog>
+    <!-- Delete Dialog - END-->
+
+
+
+
   </div>
 </template>
 
@@ -55,6 +150,13 @@ export default {
         {text: 'Actions', sortable: false, value: 'actions'}
 
       ],
+      openReservation:false,
+      isCreate: false,
+      openDelete: false,
+      editItem: {
+        dateAttention: '',
+        hour: '',
+      },
     }
   },
   methods: {
@@ -82,6 +184,52 @@ export default {
 
       this.$forceUpdate();
     },
+    seeAddDialog() {
+      this.isCreate = true;
+      this.openReservation = true;
+      this.$refs.form.reset();
+    },
+    async AddReservation() {
+      await AppointmentsApiService.create(this.editItem)
+      .then(() => {
+        this.retrieveReservations();
+        this.openReservation = false;
+        this.isCreate = false;
+      })
+      .catch(e => {
+        console.log(e);
+      });
+    },
+    seeEditDialog(item){
+      this.editItem = Object.assign({}, item);
+      this.isCreate = false;
+      this.openReservation = true;
+    },
+   async updateReservation(id, item) {
+      await AppointmentsApiService.update(id, item)
+      .then(() =>{
+        this.retrieveReservations();
+        this.openReservation = false;
+      })
+      .catch(e => {
+        console.log(e);
+      });
+    },
+    seeDeleteDialog(item){
+      this.editItem = Object.assign({}, item);
+      this.openDelete = true;
+    },
+    async deleteReservation(id) {
+      await AppointmentsApiService.delete(id)
+      .then(() => {
+        this.retrieveReservations();
+        this.openDelete = false;
+      })
+      .catch(e => {
+        console.log(e);
+      });
+    }
+    
   },
   mounted() {
     this.retrieveReservations();
