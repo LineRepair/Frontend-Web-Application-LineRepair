@@ -190,7 +190,7 @@ export default {
   },
   methods: {
     getSpareRequest(spareRequest) {
-      if (this.technicianId === spareRequest.technicianId) {
+      {
         return {
           id: spareRequest.id,
           description: spareRequest.description,
@@ -224,7 +224,7 @@ export default {
           .then(response=>{
             console.log(response);
             this.newRequest=false;
-            this.$refs.form.reset();
+            
           })
           .catch(e=>{
             console.log(e);

@@ -235,7 +235,7 @@ export default {
   },
   methods: {
     getReport(report) {
-      if (this.technicianId === report.technicianId) {
+       {
         return {
           id: report.id,
           observation: report.observation,

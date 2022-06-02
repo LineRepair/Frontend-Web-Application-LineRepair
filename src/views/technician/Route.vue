@@ -84,7 +84,9 @@
 </template>
 
 <script>
-import AppointmentApiService from "../../core/services/appointments-api-service";
+
+import AppointmentsApiService from "../../core/services/appointments-api-service";
+
 import ClientApiService from "../../core/services/clients-api-service";
 
 export default {
@@ -97,19 +99,19 @@ export default {
       technicianId: JSON.parse(localStorage.getItem("technician")).id,
       editItem: {
         id: Number,
-        dateReserve: "",
-        dateAttention: "",
-        hour: "",
+        dateReserve: '',
+        dateAttention: '',
+        hour: '',
         clientId: Number,
         technicianId: Number,
         done: Boolean,
-        address: ""
+        address: '',
       },
     }
   },
   methods: {
     getAppointments(appointment) {
-      if (this.technicianId === appointment.technicianId) {
+       {
         return {
           id: appointment.id,
           dateReserve: appointment.dateReserve,
@@ -122,7 +124,7 @@ export default {
       }
     },
     async retrieveAppointments() {
-      await AppointmentApiService.getAll()
+      await AppointmentsApiService.getAll()
         .then(response => {
           this.appointments = response.data.map(this.getAppointments);
         })
